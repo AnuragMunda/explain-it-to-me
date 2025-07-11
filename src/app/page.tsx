@@ -3,14 +3,16 @@
 import InfinitePromptScroll from "@/components/Infinte-prompt-scroll";
 import PromptInput from "@/components/prompt-input";
 import ResultSection from "@/components/result-section";
-import { useState } from "react";
+import { ExplanationContext } from "@/context/explanation-context";
+import { useContext } from "react";
 
 export default function Home() {
-  const [isData, setIsData] = useState<boolean>(false);
-
-  const handleSetExplanation = (data: boolean) => {
-    setIsData(data);
+  const explanationContext = useContext(ExplanationContext);
+  if (!explanationContext) {
+    throw new Error("useContext must be used inside an <ExplanationProvider>");
   }
+
+  const { data } = explanationContext;
 
   return (
     <main className="min-h-screen bg-linear-to-b from-[#6E642C] to-black text-white flex flex-col px-4 py-5">
@@ -28,12 +30,12 @@ export default function Home() {
       </header>
 
       <PromptInput />
-      
-      {!isData && (
+
+      {!data && (
         <InfinitePromptScroll />
       )}
 
-      <ResultSection setIsData={handleSetExplanation} />
+      <ResultSection />
 
       <footer className="mt-auto flex flex-col items-center gap-3 text-sm mb-5">
         <span>LinkedIn | Discord | Portfolio | X</span>

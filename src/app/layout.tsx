@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Albert_Sans } from "next/font/google";
 import "./globals.css";
+import { ExplanationProvider } from "@/context/explanation-context";
 
 const albertSans = Albert_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -19,10 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
+      <body suppressHydrationWarning
         className={`${albertSans.className} antialiased`}
       >
-        {children}
+        <ExplanationProvider>
+          {children}
+        </ExplanationProvider>
       </body>
     </html>
   );
