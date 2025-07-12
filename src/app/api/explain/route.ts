@@ -6,20 +6,18 @@ export async function POST(request: NextRequest) {
 
     if (!inputText) {
         return NextResponse.json({
+            success: false,
             error: 'Input text is required'
-        },
-            { status: 400 }
-        );
+        }, { status: 400 });
     }
 
     const response = await main(inputText);
-    
+
     if (!response) {
         return NextResponse.json({
-            error: 'Request Failed'
-        },
-            { status: 401 }
-        );
+            success: false,
+            error: 'Something went wrong. Please try again.'
+        }, { status: 401 });
     }
-    return NextResponse.json({ explanation: response }, { status: 200 }) // Returned explanation from gemini
+    return NextResponse.json({ success: true, explanation: response }, { status: 200 }) // Returned explanation from gemini
 }

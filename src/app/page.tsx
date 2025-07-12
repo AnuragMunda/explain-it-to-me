@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import InfinitePromptScroll from "@/components/Infinte-prompt-scroll";
 import PromptInput from "@/components/prompt-input";
@@ -12,7 +12,7 @@ export default function Home() {
     throw new Error("useContext must be used inside an <ExplanationProvider>");
   }
 
-  const { data } = explanationContext;
+  const { data, isFetching, error } = explanationContext;
 
   return (
     <main className="min-h-screen bg-linear-to-b from-[#6E642C] to-black text-white flex flex-col px-4 py-5">
@@ -31,7 +31,7 @@ export default function Home() {
 
       <PromptInput />
 
-      {!data && (
+      {!data && !isFetching && !error && (
         <InfinitePromptScroll />
       )}
 
