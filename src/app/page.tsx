@@ -1,21 +1,10 @@
-'use client'
-
 import InfinitePromptScroll from "@/components/Infinte-prompt-scroll";
 import PromptInput from "@/components/prompt-input";
 import ResultSection from "@/components/result-section";
-import { ExplanationContext } from "@/context/explanation-context";
-import { useContext } from "react";
-
 export default function Home() {
-  const explanationContext = useContext(ExplanationContext);
-  if (!explanationContext) {
-    throw new Error("useContext must be used inside an <ExplanationProvider>");
-  }
-
-  const { data, isFetching, error } = explanationContext;
 
   return (
-    <main className="min-h-screen bg-linear-to-b from-[#6E642C] to-black text-white flex flex-col px-4 py-5">
+    <main className="relative min-h-screen bg-linear-to-b from-[#6E642C] to-black text-white flex flex-col px-4 py-5 overflow-hidden">
       <header className="mb-25">
         <div className="text-lg md:text-xl tracking-wider">
           <span className="font-extrabold">E</span>
@@ -31,9 +20,7 @@ export default function Home() {
 
       <PromptInput />
 
-      {!data && !isFetching && !error && (
-        <InfinitePromptScroll />
-      )}
+      <InfinitePromptScroll />
 
       <ResultSection />
 

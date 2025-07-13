@@ -7,10 +7,12 @@ interface Explanation {
     isFetching: boolean
     error: boolean
     backupPrompt: string
+    resultOnTop: boolean
     setExplanation: (_data: string) => void
     setLoadingState: (_isFetching: boolean) => void
     setErrorState: (_error: boolean) => void
     setPromptBackup: (_prompt: string) => void
+    setResultOnTopState: (_on: boolean) => void
 }
 
 export const ExplanationContext = createContext<Explanation | undefined>(undefined);
@@ -20,6 +22,7 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
     const [isFetching, setIsFetching] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [backupPrompt, setBackupPrompt] = useState<string>('');
+    const [resultOnTop, setResultOnTop] = useState<boolean>(false);
 
     const setExplanation = (_data: string) => {
         setData(_data);
@@ -37,6 +40,10 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
         setBackupPrompt(_prompt);
     }
 
+    const setResultOnTopState = (_on: boolean) => {
+        setResultOnTop(_on);
+    }
+
     return (
         <ExplanationContext.Provider
             value={{
@@ -44,10 +51,12 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
                 isFetching,
                 error,
                 backupPrompt,
+                resultOnTop,
                 setExplanation,
                 setLoadingState,
                 setErrorState,
-                setPromptBackup
+                setPromptBackup,
+                setResultOnTopState
             }}>
             {children}
         </ExplanationContext.Provider>
