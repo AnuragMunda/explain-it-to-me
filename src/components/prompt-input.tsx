@@ -1,7 +1,7 @@
 'use client'
 
 import { Textarea } from './ui/textarea'
-import FileUploder from './file-uploader'
+// import FileUploder from './file-uploader'
 import { Button } from './ui/button'
 import { AxiosError } from 'axios'
 import React, { useContext, useState } from 'react'
@@ -48,7 +48,7 @@ const PromptInput: React.FC = () => {
                         value={prompt}
                         onChange={(e) => { setPrompt(e.target.value) }}
                     />
-                    <FileUploder />
+                    {/* <FileUploder /> */}
                 </div>
                 <Button className="px-10 py-5 text-lg border-2 bg-black font-semibold cursor-pointer hover:text-black hover:bg-white hover:border-black transition duration-300 ease-in-out"
                     onClick={() => getExplanation()}
