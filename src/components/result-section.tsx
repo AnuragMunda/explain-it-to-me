@@ -52,7 +52,7 @@ const ResultSection = () => {
         <>
             <AnimatePresence>
                 {(resultOnTop) && (
-                    <motion.section className={cn("absolute w-full md:w-[80%] lg:w-[65%] min-h-full px-5 py-8 bg-black/30 rounded-2xl self-center flex justify-center mb-15")}
+                    <motion.section className="absolute w-[95%] md:w-[80%] lg:w-[65%] min-h-full px-5 py-8 bg-black/30 rounded-2xl self-center flex justify-center mb-15 overflow-x-hidden"
                         initial={{ y: 1000 }}
                         animate={{ y: 60 }}
                         exit={{ y: 1000 }}
@@ -89,7 +89,7 @@ const ResultSection = () => {
                                 </div>
                             ) : (
                                 data && (
-                                    <article className="whitespace-pre-line">
+                                    <article className="whitespace-pre-line max-w-[100%]">
                                         <div className="float-right flex gap-3">
                                             <Bookmark className="cursor-pointer hover:text-[#1493ac]" />
                                             <Trash2 className="cursor-pointer hover:text-red-400" onClick={() => {
@@ -101,16 +101,16 @@ const ResultSection = () => {
                                         <Markdown
                                             components={{
                                                 h1: (props) => (
-                                                    <h1 className="text-3xl font-bold mt-6 text-[#1493ac]" {...props} />
+                                                    <h1 className="text-2xl md:text-3xl font-bold mt-6 text-[#1493ac]" {...props} />
                                                 ),
                                                 h2: (props) => (
-                                                    <h2 className="text-2xl font-semibold mt-4 text-[#1493ac]" {...props} />
+                                                    <h2 className="text-xl md:text-2xl font-semibold mt-4 text-[#1493ac]" {...props} />
                                                 ),
                                                 h3: (props) => (
-                                                    <h3 className="text-xl font-semibold mt-2 text-[#1493ac]" {...props} />
+                                                    <h3 className="text-lg md:text-xl font-semibold mt-2 text-[#1493ac]" {...props} />
                                                 ),
                                                 h4: (props) => (
-                                                    <h3 className="text-lg font-bold text-[#1493ac]" {...props} />
+                                                    <h3 className="text-base md:text-lg font-bold text-[#1493ac]" {...props} />
                                                 ),
                                                 strong: (props) => (
                                                     <strong className="text-base font-bold text-[#6ebccb]" {...props} />

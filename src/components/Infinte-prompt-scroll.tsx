@@ -43,7 +43,7 @@ const InfinitePromptScroll = () => {
         <>
             <AnimatePresence initial={false}>
                 {!data && !isFetching && !error && (
-                    <motion.section className="mask-fade w-full flex gap-12 justify-center mb-15 self-center"
+                    <motion.section className="mask-fade w-full flex gap-12 justify-center mb-35 self-center"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}

@@ -6,7 +6,7 @@ import ResultSection from "@/components/result-section";
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-linear-to-b from-[#093b45] to-black text-white flex flex-col px-4 py-5 overflow-y-scroll">
-      <header className="mb-20">
+      <header className="mb-25">
         <div className="text-lg md:text-xl tracking-wider">
           <span className="font-extrabold">E</span>
           <span className="font-light">xplain</span>
