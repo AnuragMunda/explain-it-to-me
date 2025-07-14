@@ -1,11 +1,12 @@
+import Footer from "@/components/footer";
 import InfinitePromptScroll from "@/components/Infinte-prompt-scroll";
 import PromptInput from "@/components/prompt-input";
 import ResultSection from "@/components/result-section";
-export default function Home() {
 
+export default function Home() {
   return (
-    <main className="relative min-h-screen bg-linear-to-b from-[#6E642C] to-black text-white flex flex-col px-4 py-5 overflow-hidden">
-      <header className="mb-25">
+    <main className="relative min-h-screen bg-linear-to-b from-[#093b45] to-black text-white flex flex-col px-4 py-5 overflow-y-scroll">
+      <header className="mb-20">
         <div className="text-lg md:text-xl tracking-wider">
           <span className="font-extrabold">E</span>
           <span className="font-light">xplain</span>
@@ -23,11 +24,8 @@ export default function Home() {
       <InfinitePromptScroll />
 
       <ResultSection />
-
-      <footer className="mt-auto flex flex-col items-center gap-3 text-sm mb-5">
-        <span>LinkedIn | Discord | Portfolio | X</span>
-        <span>© 2025 ExplainItToMe. Anurag Munda.</span>
-      </footer>
+      
+      <Footer />
     </main >
   );
 }

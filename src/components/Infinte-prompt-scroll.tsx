@@ -1,11 +1,14 @@
 'use client'
 
 import Ticker from 'framer-motion-ticker'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import PromptDemoCard from './prompt-demo-card'
 import { ExplanationContext } from '@/context/explanation-context'
+import { AnimatePresence, motion } from 'motion/react'
 
 const InfinitePromptScroll = () => {
+    const [play, setPlay] = useState<boolean>(true);
+
     const explanationContext = useContext(ExplanationContext);
     if (!explanationContext) {
         throw new Error("useContext must be used inside an <ExplanationProvider>");
@@ -38,15 +41,24 @@ const InfinitePromptScroll = () => {
 
     return (
         <>
-            {!data && !isFetching && !error && (
-                <section className="mask-fade w-full flex gap-10 justify-center mb-15 self-center">
-                    <Ticker duration={20}>
-                        {demoPrompts.map((demoPrompt) => (
-                            <PromptDemoCard key={demoPrompt.id} demoPrompt={demoPrompt.prompt} />
-                        ))}
-                    </Ticker>
-                </section >
-            )}
+            <AnimatePresence initial={false}>
+                {!data && !isFetching && !error && (
+                    <motion.section className="mask-fade w-full flex gap-12 justify-center mb-15 self-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ type: "decay", duration: 0.5 }}
+                        onHoverStart={() => setPlay(false)}
+                        onHoverEnd={() => setPlay(true)}
+                    >
+                        <Ticker isPlaying={play}  duration={20}>
+                            {demoPrompts.map((demoPrompt) => (
+                                <PromptDemoCard key={demoPrompt.id} demoPrompt={demoPrompt.prompt} />
+                            ))}
+                        </Ticker>
+                    </motion.section >
+                )}
+            </AnimatePresence>
         </>
     )
 }

@@ -8,6 +8,7 @@ import React, { useContext, useState } from 'react'
 import { ExplanationContext } from '@/context/explanation-context'
 import { ApiErrorResponse } from '@/types/ApiResponse'
 import { fetchExplanation } from '@/lib/fetch'
+import { AnimatePresence, motion } from 'motion/react'
 
 const PromptInput: React.FC = () => {
     const [prompt, setPrompt] = useState<string>("")
@@ -47,28 +48,41 @@ const PromptInput: React.FC = () => {
     }
 
     return (
-        <section className="flex flex-col items-center justify-center gap-6 md:gap-9 mb-15">
-            {!resultOnTop && (
-                <>
-                    <h1 className="font-semibold text-4xl md:text-5xl tracking-wide">What can I explain?</h1>
-                    <div className="flex flex-col items-center gap-7 w-full">
-                        <div className="w-full border-2 rounded-2xl bg-black flex flex-col gap-2 justify-between md:w-[80%] lg:w-[65%] min-h-40 max-h-60 md:max-h-100 p-2">
-                            <Textarea className="resize-none border-0 md:text-lg focus:ring-0" placeholder="Ask anything..."
-                                value={prompt}
-                                onChange={(e) => { setPrompt(e.target.value) }}
-                            />
-                            {/* <FileUploder /> */}
+        <>
+            <AnimatePresence initial={false}>
+                {!resultOnTop && (
+                    <motion.section className="flex flex-col items-center justify-center gap-6 md:gap-9 mb-20"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ type: "decay", duration: 0.6 }}
+
+                    >
+                        <h1 className="font-semibold text-4xl md:text-5xl tracking-wide">What can I explain?</h1>
+                        <div className="flex flex-col items-center gap-7 w-full">
+                            <div className="w-full rounded-2xl border-[#1493ac] bg-black flex justify-between md:w-[80%] lg:w-[65%] min-h-40 max-h-60 md:max-h-100 p-2 border-2">
+                                <Textarea className="resize-none border-0 md:text-lg focus:ring-0" placeholder="Ask anything..."
+                                    value={prompt}
+                                    onChange={(e) => { setPrompt(e.target.value) }}
+                                />
+                                {/* <FileUploder /> */}
+                            </div>
+                            <motion.div
+                                whileTap={{ scale: 0.9 }}
+                                transition={{ type: "spring" }}
+                            >
+                                <Button className="px-10 py-5 bg-black hover:bg-[#1493ac] border-2 border-[#1493ac] text-lg font-semibold cursor-pointer transition duration-300 ease-in-out"
+                                    onClick={() => getExplanation()}
+                                    disabled={(prompt === '')}
+                                >
+                                    Explain It To Me
+                                </Button>
+                            </motion.div>
                         </div>
-                        <Button className="px-10 py-5 text-lg border-2 bg-black font-semibold cursor-pointer hover:text-black hover:bg-white hover:border-black transition duration-300 ease-in-out"
-                            onClick={() => getExplanation()}
-                            disabled={(prompt === '')}
-                        >
-                            Explain It To Me
-                        </Button>
-                    </div>
-                </>
-            )}
-        </section>
+                    </motion.section>
+                )}
+            </AnimatePresence>
+        </>
     )
 }
 
