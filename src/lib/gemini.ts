@@ -15,8 +15,9 @@ const main = async (prompt: string) => {
         - A step-by-step breakdown. Number each step clearly and use proper formatting between steps using headings and horizontal lines.
         - A brief summary and glossary of key terms (with short definitions) at the end.
         - Please properly format the explanation.
+        - Use emojis and icons wherever you can. (only if it makes sense) And for heading append the icons at the start.
 
-        Make sure your answer is easy to read and visually structured.
+        Make sure the input is correct and not random. If the input doesn't make sense, inform the user.
         `.trim();
 
     const response = await ai.models.generateContent({
