@@ -1,18 +1,17 @@
 'use client'
 
 import { ExplanationContext } from "@/context/explanation-context";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Markdown from "react-markdown";
-import { Trash2 } from "lucide-react";
-import { Bookmark } from "lucide-react";
+import { Trash2, Bookmark, Copy } from "lucide-react";
 import { Button } from "./ui/button";
 import { fetchExplanation } from "@/lib/fetch";
 import { AxiosError } from "axios";
 import { ApiErrorResponse } from "@/types/ApiResponse";
-import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 
 const ResultSection = () => {
+    const [hover, setHover] = useState<boolean>(false);
 
     const explanationContext = useContext(ExplanationContext);
     if (!explanationContext) {
@@ -73,11 +72,22 @@ const ResultSection = () => {
                         ) : (
                             error ? (
                                 <div className="w-full">
-                                    <Trash2 className="cursor-pointer float-right hover:text-red-400" onClick={() => {
-
-                                        setResultOnTopState(false)
-                                        setErrorState(false)
-                                    }} />
+                                    <div className="relative w-10 h-10 float-right mr-5">
+                                        <motion.span className="absolute inset-0 rounded-full bg-red-500 -z-1"
+                                            initial={{ scale: 0 }}
+                                            animate={hover ? { scale: 1 } : { scale: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                        ></motion.span>
+                                        <motion.span className="cursor-pointer absolute inset-0 self-center justify-self-center z-1"
+                                            onHoverStart={() => setHover(true)}
+                                            onHoverEnd={() => setHover(false)}
+                                        >
+                                            <Trash2 onClick={() => {
+                                                setResultOnTopState(false)
+                                                setErrorState(false)
+                                            }} />
+                                        </motion.span>
+                                    </div>
                                     <div className="flex flex-col items-center gap-5 mt-30">
                                         <h1 className="text-center text-xl">Something went wrong.<br />Please try again or close the window.</h1>
                                         <Button className="px-10 py-5 bg-[#1493ac] hover:bg-[#1493ac]/50 text-base font-semibold cursor-pointer transition duration-300 ease-in-out"
@@ -90,8 +100,9 @@ const ResultSection = () => {
                             ) : (
                                 data && (
                                     <article className="whitespace-pre-line max-w-[100%]">
-                                        <div className="float-right flex gap-3">
+                                        <div className="float-right mr-5 flex gap-6">
                                             <Bookmark className="cursor-pointer hover:text-[#1493ac]" />
+                                            <Copy className="cursor-pointer hover:text-[#1493ac]" />
                                             <Trash2 className="cursor-pointer hover:text-red-400" onClick={() => {
                                                 setResultOnTopState(false)
                                                 setExplanation("")
