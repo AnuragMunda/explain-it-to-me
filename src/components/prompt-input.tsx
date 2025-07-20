@@ -61,7 +61,7 @@ const PromptInput: React.FC = () => {
                     >
                         <h1 className="font-semibold text-4xl md:text-5xl tracking-wide">What can I explain?</h1>
                         <div className="flex flex-col items-center gap-7 w-full">
-                            <div className="w-full rounded-2xl border-[#1493ac] bg-black flex justify-between md:w-[80%] lg:w-[65%] min-h-40 max-h-60 md:max-h-100 p-2 border">
+                            <div className="w-full rounded-2xl border-[#1493ac] bg-white/5 flex justify-between md:w-[80%] lg:w-[65%] min-h-40 max-h-60 md:max-h-100 p-2 border">
                                 <Textarea className="resize-none border-0 md:text-lg focus:ring-0" placeholder="Ask anything..."
                                     value={prompt}
                                     onChange={(e) => { setPrompt(e.target.value) }}
@@ -72,7 +72,7 @@ const PromptInput: React.FC = () => {
                                 whileTap={{ scale: 0.9 }}
                                 transition={{ type: "spring" }}
                             >
-                                <Button className="px-10 py-5 bg-black hover:bg-[#1493ac] border border-[#1493ac] text-lg font-semibold cursor-pointer transition duration-300 ease-in-out"
+                                <Button className="px-10 py-5 bg-white/5 hover:bg-[#1493ac] border border-[#1493ac] text-lg font-semibold cursor-pointer transition duration-300 ease-in-out"
                                     onClick={() => getExplanation()}
                                     disabled={(prompt === '' || isFetching)}
                                 >
