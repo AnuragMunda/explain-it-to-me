@@ -3,6 +3,7 @@ import { Albert_Sans } from "next/font/google";
 import "./globals.css";
 import { ExplanationProvider } from "@/context/explanation-context";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { Toaster } from 'react-hot-toast';
 
 const albertSans = Albert_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -26,6 +27,7 @@ export default function RootLayout({
       >
         <ExplanationProvider>
           <SidebarProvider>
+            <Toaster />
             {children}
           </SidebarProvider>
         </ExplanationProvider>

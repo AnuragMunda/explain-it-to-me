@@ -25,7 +25,8 @@ const PromptInput: React.FC = () => {
         setLoadingState,
         setErrorState,
         setPromptBackup,
-        setResultOnTopState
+        setResultOnTopState,
+        setSavedState
     } = explanationContext;
 
     // API call to fetch the output for the given prompt
@@ -34,16 +35,17 @@ const PromptInput: React.FC = () => {
         setResultOnTopState(true);
         setErrorState(false);
         setLoadingState(true);
+        setSavedState(false);
         try {
             const response = await fetchExplanation(prompt);
             setExplanation(response.data.explanation);
         } catch (error) {
             setErrorState(true);
-            setPromptBackup(prompt);
             const apiError = error as AxiosError<ApiErrorResponse>;
             console.log(apiError.response?.data.error ?? "An unexpected error occurred.");
         } finally {
             setPrompt("");
+            setPromptBackup(prompt);
             setLoadingState(false);
         }
     }

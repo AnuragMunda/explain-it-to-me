@@ -51,7 +51,7 @@ export default async function Home() {
 
         <InfinitePromptScroll />
 
-        <ResultSection />
+        <ResultSection session={session} />
 
         <Footer />
       </section >

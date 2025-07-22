@@ -1,8 +1,18 @@
+import { auth } from "@/lib/auth";
 import dbConnect from "@/lib/dbConnect";
 import UserDataModel, { Explanation } from "@/models/UserData";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        return NextResponse.json({
+            success: false,
+            message: "Not Authenticated"
+        }, { status: 401 })
+    }
+
     await dbConnect();
 
     const { email, query, explanation } = await request.json();

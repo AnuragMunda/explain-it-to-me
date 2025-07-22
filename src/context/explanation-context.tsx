@@ -8,12 +8,18 @@ interface Explanation {
     error: boolean
     backupPrompt: string
     resultOnTop: boolean
+    queries: QueryItem[]
+    saved: boolean
     setExplanation: (_data: string) => void
     setLoadingState: (_isFetching: boolean) => void
     setErrorState: (_error: boolean) => void
     setPromptBackup: (_prompt: string) => void
     setResultOnTopState: (_on: boolean) => void
+    setQueriesData: (_queries: QueryItem[]) => void
+    setSavedState: (_saved: boolean) => void
 }
+
+type QueryItem = { id: string; query: string };
 
 export const ExplanationContext = createContext<Explanation | undefined>(undefined);
 
@@ -23,6 +29,8 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
     const [error, setError] = useState<boolean>(false);
     const [backupPrompt, setBackupPrompt] = useState<string>('');
     const [resultOnTop, setResultOnTop] = useState<boolean>(false);
+    const [saved, setSaved] = useState<boolean>(false);
+    const [queries, setQueries] = useState<QueryItem[]>([]);
 
     const setExplanation = (_data: string) => {
         setData(_data);
@@ -44,6 +52,14 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
         setResultOnTop(_on);
     }
 
+    const setQueriesData = (_queries: QueryItem[]) => {
+        setQueries(_queries);
+    }
+
+        const setSavedState = (_saved: boolean) => {
+        setSaved(_saved);
+    }
+
     return (
         <ExplanationContext.Provider
             value={{
@@ -52,11 +68,15 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
                 error,
                 backupPrompt,
                 resultOnTop,
+                queries,
+                saved,
                 setExplanation,
                 setLoadingState,
                 setErrorState,
                 setPromptBackup,
-                setResultOnTopState
+                setResultOnTopState,
+                setQueriesData,
+                setSavedState
             }}>
             {children}
         </ExplanationContext.Provider>

@@ -1,6 +1,7 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { ObjectId, Schema } from "mongoose";
 
 export interface Explanation extends Document {
+    _id: ObjectId;
     query: string;
     explanation: string;
     createdAt: Date;

@@ -3,14 +3,17 @@
 import { ExplanationContext } from "@/context/explanation-context";
 import { useContext, useState } from "react";
 import Markdown from "react-markdown";
-import { Trash2, Bookmark, Copy } from "lucide-react";
+import { Trash2, Bookmark, Copy, X, XCircle } from "lucide-react";
 import { Button } from "./ui/button";
-import { fetchExplanation } from "@/lib/fetch";
+import { fetchExplanation, fetchQueries, saveExplanation } from "@/lib/fetch";
 import { AxiosError } from "axios";
 import { ApiErrorResponse } from "@/types/ApiResponse";
 import { AnimatePresence, motion } from "motion/react";
+import { Session } from "next-auth";
+import copy from 'copy-to-clipboard'
+import toast from "react-hot-toast";
 
-const ResultSection = () => {
+const ResultSection = ({ session }: { session: Session | null }) => {
     const [hover, setHover] = useState<boolean>(false);
 
     const explanationContext = useContext(ExplanationContext);
@@ -18,16 +21,19 @@ const ResultSection = () => {
         throw new Error("useContext must be used inside an <ExplanationProvider>");
     }
 
-    const { data,
+    const {
+        data,
         backupPrompt,
-        setExplanation,
         isFetching,
         error,
         resultOnTop,
+        saved,
+        setExplanation,
         setErrorState,
         setLoadingState,
-        setPromptBackup,
-        setResultOnTopState
+        setResultOnTopState,
+        setQueriesData,
+        setSavedState
     } = explanationContext;
 
     // API call to fetch the output for the given prompt
@@ -37,13 +43,30 @@ const ResultSection = () => {
         try {
             const response = await fetchExplanation(backupPrompt);
             setExplanation(response.data.explanation);
-            setPromptBackup("");
         } catch (error) {
             setErrorState(true);
             const apiError = error as AxiosError<ApiErrorResponse>;
             console.log(apiError.response?.data.error ?? "An unexpected error occurred.");
         } finally {
             setLoadingState(false);
+        }
+    }
+
+    const getQueries = async () => {
+        try {
+            const response = await fetchQueries()
+            setQueriesData(response.data.message)
+        } catch (error) {
+            console.log("Error while fetching queries: ", error)
+        }
+    }
+
+    const saveData = async (email: string, username: string, explanation: string) => {
+        try {
+            await saveExplanation(email, backupPrompt, explanation)
+            getQueries()
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -101,9 +124,22 @@ const ResultSection = () => {
                                 data && (
                                     <article className="whitespace-pre-line max-w-[100%]">
                                         <div className="float-right mr-5 flex gap-6">
-                                            <Bookmark className="cursor-pointer hover:text-[#1493ac]" />
-                                            <Copy className="cursor-pointer hover:text-[#1493ac]" />
-                                            <Trash2 className="cursor-pointer hover:text-red-400" onClick={() => {
+                                            {session?.user && (
+                                                saved ? (
+                                                    <Trash2 className="cursor-pointer hover:text-red-500" />
+                                                ) : (
+                                                    <Bookmark className="cursor-pointer hover:text-[#1493ac]" onClick={() => {
+                                                        saveData(session.user?.email || "", session.user?.name || "", data)
+                                                        toast.success("Saved")
+                                                        setSavedState(true)
+                                                    }} />
+                                                )
+                                            )}
+                                            <Copy className="cursor-pointer hover:text-[#1493ac]" onClick={() => {
+                                                copy(data)
+                                                toast.success("Copied")
+                                            }} />
+                                            <XCircle size={25} className="cursor-pointer hover:text-red-400" onClick={() => {
                                                 setResultOnTopState(false)
                                                 setExplanation("")
                                             }} />
