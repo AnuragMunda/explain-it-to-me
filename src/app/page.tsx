@@ -35,7 +35,7 @@ export default async function Home() {
               </div>
             </div>
 
-            <button className="cursor-pointer hover:text-black hover:bg-[#1493ac] px-3 py-2 transition-all ease-in-out rounded-lg" onClick={async () => {
+            <button className="border border-[#1493ac] cursor-pointer hover:text-black bg-white/5 hover:bg-[#1493ac] px-3 py-2 transition-all ease-in-out rounded-lg" onClick={async () => {
               'use server'
               if (session?.user)
                 await signOut()

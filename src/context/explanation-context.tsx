@@ -10,6 +10,7 @@ interface Explanation {
     resultOnTop: boolean
     queries: QueryItem[]
     saved: boolean
+    currentId: string
     setExplanation: (_data: string) => void
     setLoadingState: (_isFetching: boolean) => void
     setErrorState: (_error: boolean) => void
@@ -17,6 +18,7 @@ interface Explanation {
     setResultOnTopState: (_on: boolean) => void
     setQueriesData: (_queries: QueryItem[]) => void
     setSavedState: (_saved: boolean) => void
+    setCurrentId: (_id: string) => void
 }
 
 type QueryItem = { id: string; query: string };
@@ -31,6 +33,7 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
     const [resultOnTop, setResultOnTop] = useState<boolean>(false);
     const [saved, setSaved] = useState<boolean>(false);
     const [queries, setQueries] = useState<QueryItem[]>([]);
+    const [currentId, setCurrentId] = useState<string>("");
 
     const setExplanation = (_data: string) => {
         setData(_data);
@@ -70,13 +73,15 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
                 resultOnTop,
                 queries,
                 saved,
+                currentId,
                 setExplanation,
                 setLoadingState,
                 setErrorState,
                 setPromptBackup,
                 setResultOnTopState,
                 setQueriesData,
-                setSavedState
+                setSavedState,
+                setCurrentId
             }}>
             {children}
         </ExplanationContext.Provider>

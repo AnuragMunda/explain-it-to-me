@@ -3,9 +3,9 @@
 import { ExplanationContext } from "@/context/explanation-context";
 import { useContext, useState } from "react";
 import Markdown from "react-markdown";
-import { Trash2, Bookmark, Copy, X, XCircle } from "lucide-react";
+import { Trash2, Bookmark, Copy, XCircle } from "lucide-react";
 import { Button } from "./ui/button";
-import { fetchExplanation, fetchQueries, saveExplanation } from "@/lib/fetch";
+import { deleteExplanationById, fetchExplanation, fetchQueries, saveExplanation } from "@/lib/fetch";
 import { AxiosError } from "axios";
 import { ApiErrorResponse } from "@/types/ApiResponse";
 import { AnimatePresence, motion } from "motion/react";
@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 
 const ResultSection = ({ session }: { session: Session | null }) => {
     const [hover, setHover] = useState<boolean>(false);
+    const [processing, setProcessing] = useState<boolean>(false);
 
     const explanationContext = useContext(ExplanationContext);
     if (!explanationContext) {
@@ -28,12 +29,14 @@ const ResultSection = ({ session }: { session: Session | null }) => {
         error,
         resultOnTop,
         saved,
+        currentId,
         setExplanation,
         setErrorState,
         setLoadingState,
         setResultOnTopState,
         setQueriesData,
-        setSavedState
+        setSavedState,
+        setCurrentId
     } = explanationContext;
 
     // API call to fetch the output for the given prompt
@@ -62,11 +65,42 @@ const ResultSection = ({ session }: { session: Session | null }) => {
     }
 
     const saveData = async (email: string, username: string, explanation: string) => {
-        try {
-            await saveExplanation(email, backupPrompt, explanation)
-            getQueries()
-        } catch (error) {
-            console.log(error)
+        if (!processing) {
+            setProcessing(true)
+            let toastId;
+            try {
+                toastId = toast.loading("Saving")
+                const id = await saveExplanation(email, backupPrompt, explanation)
+                setCurrentId(id)
+                getQueries()
+                toast.success("Saved", { id: toastId })
+                setSavedState(true)
+            } catch (error) {
+                console.log(error)
+                toast.error("Something went wrong", { id: toastId })
+            } finally {
+                setProcessing(false)
+            }
+        }
+    }
+
+    const deleteExplanation = async (id: string) => {
+        if (!processing) {
+            let toastId;
+            try {
+                setProcessing(true)
+                toastId = toast.loading("Deleting")
+                await deleteExplanationById(id)
+                setCurrentId("")
+                toast.success("Deleted", { id: toastId })
+                setSavedState(false)
+                getQueries()
+            } catch (error) {
+                console.log(error)
+                toast.error("Something went wrong", { id: toastId })
+            } finally {
+                setProcessing(false)
+            }
         }
     }
 
@@ -126,12 +160,10 @@ const ResultSection = ({ session }: { session: Session | null }) => {
                                         <div className="float-right mr-5 flex gap-6">
                                             {session?.user && (
                                                 saved ? (
-                                                    <Trash2 className="cursor-pointer hover:text-red-500" />
+                                                    <Trash2 className="cursor-pointer hover:text-red-500" onClick={() => deleteExplanation(currentId)} />
                                                 ) : (
                                                     <Bookmark className="cursor-pointer hover:text-[#1493ac]" onClick={() => {
                                                         saveData(session.user?.email || "", session.user?.name || "", data)
-                                                        toast.success("Saved")
-                                                        setSavedState(true)
                                                     }} />
                                                 )
                                             )}

@@ -27,7 +27,9 @@ export function AppSidebar() {
         setResultOnTopState,
         setErrorState,
         setQueriesData,
-        setSavedState
+        setSavedState,
+        setCurrentId,
+        setPromptBackup
     } = explanationContext;
 
     const getQueries = async () => {
@@ -50,7 +52,9 @@ export function AppSidebar() {
         try {
             const response = await fetchExplanationById(id)
             setExplanation(response.explanation)
+            setPromptBackup(response.query)
             setSavedState(true)
+            setCurrentId(id)
         } catch (error) {
             console.log("something went wrong", error)
             setResultOnTopState(false)

@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import dbConnect from "@/lib/dbConnect";
 import UserDataModel, { Explanation } from "@/models/UserData";
+import { Types } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -26,13 +27,14 @@ export async function POST(request: NextRequest) {
         }
 
         // If user has signed in
-        const newExplanation = { query, explanation, createdAt: new Date() }
-        user.savedData.push(newExplanation as Explanation)
+        const newExplanation = { _id: new Types.ObjectId(), query, explanation, createdAt: new Date() }
+        user.savedData.push(newExplanation as unknown as Explanation)
         await user.save()
 
         return NextResponse.json({
             success: true,
-            message: "Explanation saved successfully"
+            message: "Explanation saved successfully",
+            id: newExplanation._id.toString()
         }, { status: 200 })
     } catch (error) {
         console.log("Error adding messages", error)
