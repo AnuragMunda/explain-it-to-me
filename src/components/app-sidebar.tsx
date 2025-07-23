@@ -13,13 +13,14 @@ import {
 import { ExplanationContext } from "@/context/explanation-context"
 import { fetchExplanationById, fetchQueries } from "@/lib/fetch"
 import { useContext, useEffect } from "react"
+import { useSession } from "next-auth/react"
 
 export function AppSidebar() {
     const explanationContext = useContext(ExplanationContext);
     if (!explanationContext) {
         throw new Error("useContext must be used inside an <ExplanationProvider>");
     }
-
+    const { data: session } = useSession()
     const {
         queries,
         setExplanation,
@@ -68,7 +69,7 @@ export function AppSidebar() {
         <Sidebar>
             <SidebarContent className="text-white bg-linear-to-b from-[#052329] to-black px-2 py-4">
                 <SidebarGroup>
-                    <SidebarGroupLabel className="text-lg text-white mb-5">Anurag Munda</SidebarGroupLabel>
+                    <SidebarGroupLabel className="text-lg text-white mb-5">{session?.user?.name}</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {queries.map((item) => (
