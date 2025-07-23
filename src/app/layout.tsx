@@ -4,6 +4,7 @@ import "./globals.css";
 import { ExplanationProvider } from "@/context/explanation-context";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from 'react-hot-toast';
+import { SessionProvider } from "next-auth/react";
 
 const albertSans = Albert_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -25,12 +26,14 @@ export default function RootLayout({
       <body suppressHydrationWarning
         className={`${albertSans.className} antialiased`}
       >
-        <ExplanationProvider>
-          <SidebarProvider>
-            <Toaster />
-            {children}
-          </SidebarProvider>
-        </ExplanationProvider>
+        <SessionProvider>
+          <ExplanationProvider>
+            <SidebarProvider>
+              <Toaster />
+              {children}
+            </SidebarProvider>
+          </ExplanationProvider>
+        </SessionProvider>
       </body>
     </html>
   );
