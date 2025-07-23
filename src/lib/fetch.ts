@@ -19,12 +19,12 @@ export const saveExplanation = async (email: string, query: string, explanation:
 }
 
 export const fetchQueries = async () => {
-    const response = await axios.get('http://localhost:3000/api/get-queries')
+    const response = await axios.get('/api/get-queries')
     return response
 }
 
 export const fetchExplanationById = async (id: string) => {
-    const response = await axios.get(`http://localhost:3000/api/get-explanation?id=${id}`)
+    const response = await axios.get(`/api/get-explanation?id=${id}`)
     return response.data.message
 }
 

@@ -19,7 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       try {
         const { email, name } = user;
 
-        const response = await axios.post('http://localhost:3000/api/create-user', {
+        const response = await axios.post('/api/create-user', {
           username: name,
           email,
         })
