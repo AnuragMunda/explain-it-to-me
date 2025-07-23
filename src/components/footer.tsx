@@ -4,6 +4,8 @@ import { ExplanationContext } from '@/context/explanation-context';
 import { AnimatePresence } from 'motion/react';
 import React, { useContext } from 'react'
 import { motion } from 'motion/react';
+import Link from 'next/link';
+import { Dot, Github, Linkedin, Twitter } from 'lucide-react';
 
 const Footer = () => {
     const explanationContext = useContext(ExplanationContext);
@@ -23,7 +25,15 @@ const Footer = () => {
                         exit={{ opacity: 0 }}
                         transition={{ type: "decay", duration: 0.6 }}
                     >
-                        <span>LinkedIn | Discord | Portfolio | X</span>
+                        <ul className='mb-2'>
+                            <li className='flex items-center h-5 gap-2'>
+                                <Link className='hover:text-[#1493ac]' href="https://www.linkedin.com/in/anuragmunda/"><Linkedin size={20} /></Link>
+                                <Dot />
+                                <Link className='hover:text-[#1493ac]' href="https://x.com/0xShenigun"><Twitter size={20} /></Link>
+                                <Dot />
+                                <Link className='hover:text-[#1493ac]' href="https://github.com/AnuragMunda"><Github size={20} /></Link>
+                            </li>
+                        </ul>
                         <span>© 2025 ExplainItToMe. Anurag Munda.</span>
                     </motion.footer>
                 )}
