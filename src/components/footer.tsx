@@ -27,11 +27,11 @@ const Footer = () => {
                     >
                         <ul className='mb-2'>
                             <li className='flex items-center h-5 gap-2'>
-                                <Link className='hover:text-[#1493ac]' href="https://www.linkedin.com/in/anuragmunda/"><Linkedin size={20} /></Link>
+                                <Link className='hover:text-[#1493ac]' target='_blank' href="https://www.linkedin.com/in/anuragmunda/"><Linkedin size={20} /></Link>
                                 <Dot />
-                                <Link className='hover:text-[#1493ac]' href="https://x.com/0xShenigun"><Twitter size={20} /></Link>
+                                <Link className='hover:text-[#1493ac]' target='_blank' href="https://x.com/0xShenigun"><Twitter size={20} /></Link>
                                 <Dot />
-                                <Link className='hover:text-[#1493ac]' href="https://github.com/AnuragMunda"><Github size={20} /></Link>
+                                <Link className='hover:text-[#1493ac]' target='_blank' href="https://github.com/AnuragMunda"><Github size={20} /></Link>
                             </li>
                         </ul>
                         <span>© 2025 ExplainItToMe. Anurag Munda.</span>
