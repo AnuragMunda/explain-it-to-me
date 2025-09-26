@@ -7,6 +7,7 @@ interface Explanation {
     isFetching: boolean
     error: boolean
     backupPrompt: string
+    backupExplanationType: 'kid' | 'adult'
     resultOnTop: boolean
     queries: QueryItem[]
     saved: boolean
@@ -15,6 +16,7 @@ interface Explanation {
     setLoadingState: (_isFetching: boolean) => void
     setErrorState: (_error: boolean) => void
     setPromptBackup: (_prompt: string) => void
+    setExplanationTypeBackup: (_type: 'kid' | 'adult') => void
     setResultOnTopState: (_on: boolean) => void
     setQueriesData: (_queries: QueryItem[]) => void
     setSavedState: (_saved: boolean) => void
@@ -30,6 +32,7 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
     const [isFetching, setIsFetching] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [backupPrompt, setBackupPrompt] = useState<string>('');
+    const [backupExplanationType, setBackupExplanationType] = useState<'kid' | 'adult'>('adult');
     const [resultOnTop, setResultOnTop] = useState<boolean>(false);
     const [saved, setSaved] = useState<boolean>(false);
     const [queries, setQueries] = useState<QueryItem[]>([]);
@@ -51,6 +54,10 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
         setBackupPrompt(_prompt);
     }
 
+    const setExplanationTypeBackup = (_type: 'kid' | 'adult') => {
+        setBackupExplanationType(_type);
+    }
+
     const setResultOnTopState = (_on: boolean) => {
         setResultOnTop(_on);
     }
@@ -70,6 +77,7 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
                 isFetching,
                 error,
                 backupPrompt,
+                backupExplanationType,
                 resultOnTop,
                 queries,
                 saved,
@@ -78,6 +86,7 @@ export const ExplanationProvider = ({ children }: { children: ReactNode }) => {
                 setLoadingState,
                 setErrorState,
                 setPromptBackup,
+                setExplanationTypeBackup,
                 setResultOnTopState,
                 setQueriesData,
                 setSavedState,

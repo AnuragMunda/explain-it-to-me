@@ -27,6 +27,7 @@ const PromptInput: React.FC = () => {
         setLoadingState,
         setErrorState,
         setPromptBackup,
+        setExplanationTypeBackup,
         setResultOnTopState,
         setSavedState
     } = explanationContext;
@@ -52,6 +53,7 @@ const PromptInput: React.FC = () => {
         } finally {
             setPrompt("");
             setPromptBackup(prompt);
+            setExplanationTypeBackup(explanationType);
             setLoadingState(false);
         }
     }

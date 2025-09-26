@@ -25,6 +25,7 @@ const ResultSection = ({ session }: { session: Session | null }) => {
     const {
         data,
         backupPrompt,
+        backupExplanationType,
         isFetching,
         error,
         resultOnTop,
@@ -44,7 +45,7 @@ const ResultSection = ({ session }: { session: Session | null }) => {
         setErrorState(false);
         setLoadingState(true);
         try {
-            const response = await fetchExplanation(backupPrompt);
+            const response = await fetchExplanation(backupPrompt, backupExplanationType);
             setExplanation(response.data.explanation);
         } catch (error) {
             setErrorState(true);
