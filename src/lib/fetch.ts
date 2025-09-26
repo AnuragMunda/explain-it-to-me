@@ -2,9 +2,10 @@ import { ApiResponse } from "@/types/ApiResponse";
 import axios from "axios";
 
 // API call to fetch the output for the given prompt
-export const fetchExplanation = async (prompt: string) => {
+export const fetchExplanation = async (prompt: string, explanationType: 'kid' | 'adult') => {
     const response = await axios.post<ApiResponse>('/api/explain', {
-        inputText: prompt
+        inputText: prompt,
+        type: explanationType
     })
     return response
 }

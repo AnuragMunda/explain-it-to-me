@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import main from "@/lib/gemini";
 
 export async function POST(request: NextRequest) {
-    const { inputText } = await request.json();
+    const { inputText, type } = await request.json();
 
     if (!inputText) {
         return NextResponse.json({
@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
         }, { status: 400 });
     }
 
-    const response = await main(inputText);
+    const response = await main(inputText, type);
 
     if (!response) {
         return NextResponse.json({

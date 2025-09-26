@@ -177,27 +177,29 @@ const ResultSection = ({ session }: { session: Session | null }) => {
                                             }} />
                                         </div>
 
-                                        <Markdown
-                                            components={{
-                                                h1: (props) => (
-                                                    <h1 className="text-2xl md:text-3xl font-bold mt-6 text-[#1493ac]" {...props} />
-                                                ),
-                                                h2: (props) => (
-                                                    <h2 className="text-xl md:text-2xl font-semibold mt-4 text-[#1493ac]" {...props} />
-                                                ),
-                                                h3: (props) => (
-                                                    <h3 className="text-lg md:text-xl font-semibold mt-2 text-[#1493ac]" {...props} />
-                                                ),
-                                                h4: (props) => (
-                                                    <h3 className="text-base md:text-lg font-bold text-[#1493ac]" {...props} />
-                                                ),
-                                                strong: (props) => (
-                                                    <strong className="text-base font-bold text-[#6ebccb]" {...props} />
-                                                ),
-                                            }}
-                                        >
-                                            {data}
-                                        </Markdown>
+                                        <div className="mt-15">
+                                            <Markdown
+                                                components={{
+                                                    h1: (props) => (
+                                                        <h1 className="text-2xl md:text-3xl font-bold mt-6 text-[#1493ac]" {...props} />
+                                                    ),
+                                                    h2: (props) => (
+                                                        <h2 className="text-xl md:text-2xl font-semibold mt-4 text-[#1493ac]" {...props} />
+                                                    ),
+                                                    h3: (props) => (
+                                                        <h3 className="text-lg md:text-xl font-semibold mt-2 text-[#1493ac]" {...props} />
+                                                    ),
+                                                    h4: (props) => (
+                                                        <h3 className="text-base md:text-lg font-bold text-[#1493ac]" {...props} />
+                                                    ),
+                                                    strong: (props) => (
+                                                        <strong className="text-base font-bold text-[#6ebccb]" {...props} />
+                                                    ),
+                                                }}
+                                            >
+                                                {data}
+                                            </Markdown>
+                                        </div>
                                     </article>
                                 )
                             )

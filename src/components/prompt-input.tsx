@@ -9,9 +9,11 @@ import { ExplanationContext } from '@/context/explanation-context'
 import { ApiErrorResponse } from '@/types/ApiResponse'
 import { fetchExplanation } from '@/lib/fetch'
 import { AnimatePresence, motion } from 'motion/react'
+import SelectMode from './select-mode'
 
 const PromptInput: React.FC = () => {
     const [prompt, setPrompt] = useState<string>("")
+    const [explanationType, setExplanationType] = useState<'kid' | 'adult'>('adult')
 
     const explanationContext = useContext(ExplanationContext);
     if (!explanationContext) {
@@ -29,6 +31,10 @@ const PromptInput: React.FC = () => {
         setSavedState
     } = explanationContext;
 
+    const setType = (_type: 'kid' | 'adult') => {
+        setExplanationType(_type)
+    }
+
     // API call to fetch the output for the given prompt
     const getExplanation = async () => {
         if (prompt === '') return
@@ -37,7 +43,7 @@ const PromptInput: React.FC = () => {
         setLoadingState(true);
         setSavedState(false);
         try {
-            const response = await fetchExplanation(prompt);
+            const response = await fetchExplanation(prompt, explanationType);
             setExplanation(response.data.explanation);
         } catch (error) {
             setErrorState(true);
@@ -63,12 +69,13 @@ const PromptInput: React.FC = () => {
                     >
                         <h1 className="font-semibold text-4xl md:text-5xl tracking-wide">What can I explain?</h1>
                         <div className="flex flex-col items-center gap-7 w-full">
-                            <div className="w-full rounded-2xl border-[#1493ac] bg-white/5 flex justify-between md:w-[80%] lg:w-[65%] min-h-40 max-h-60 md:max-h-100 p-2 border">
-                                <Textarea className="resize-none border-0 md:text-lg focus:ring-0" placeholder="Ask anything..."
+                            <div className="w-full rounded-2xl border-[#1493ac] bg-white/5 flex flex-col justify-between md:w-[80%] lg:w-[65%] min-h-40 max-h-60 md:max-h-100 p-2 border">
+                                <Textarea className="grow resize-none border-0 md:text-lg focus:ring-0" placeholder="Ask anything..."
                                     value={prompt}
                                     onChange={(e) => { setPrompt(e.target.value) }}
                                 />
                                 {/* <FileUploder /> */}
+                                <SelectMode setType={setType} />
                             </div>
                             <motion.div
                                 whileTap={{ scale: 0.9 }}

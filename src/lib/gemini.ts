@@ -2,11 +2,11 @@ import { GoogleGenAI } from "@google/genai";
 
 const ai = new GoogleGenAI({});
 
-const main = async (prompt: string) => {
-
+const main = async (prompt: string, type: 'kid' | 'adult') => {
+    console.log(type)
     const systemInstruction = `
         You are an intelligent and helpful tutor designed to explain concepts in a simple, structured, and step-by-step format, The explanation topic can be found in any type of input — including text, images, videos, or documents.
-        Your job is to take the following content and break it down into understandable steps as if you're explaining it to a curious 12-year-old. Explain every aspect of the topic.
+        Your job is to take the following content and break it down into understandable steps as if you're explaining it to a ${type === 'kid' ? `curious 12-year-old` : `curious educated adult`}. Explain every aspect of the topic.
         Avoid jargon. Use analogies, definitions, and real-world examples wherever helpful.
         When content is visual (like an image, diagram, or video), begin by clearly describing what it shows, then break down any embedded concepts in a step-by-step explanation.
         
